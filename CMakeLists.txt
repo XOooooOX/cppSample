@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(cpp_sample main.cpp
         counter.h
-        counter.cpp)
+        counter.cpp
+        overflow-bug.cpp)

@@ -124,6 +124,11 @@ cout << bignumber << endl;
     // shift be chap zarb dar 2 be ezaye har bit
     // sift be rast taghsim bar 2 be ezage har bit
 
+    auto mohammad = 67;
+
+  if (mohammad == 43) {
+      std::cout << "ki";
+  }
     auto ggg = "salam";// char *
 
 
