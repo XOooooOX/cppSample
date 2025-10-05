@@ -1,6 +1,10 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 using namespace std;
+#include <csignal>
+#include <limits>
+
 using ll = long long;
 #include "counter.h"
 
@@ -23,14 +27,93 @@ void greet(string name = "Guest") {
 // constexpr -> bayad dar zaman compile meghdar dehi she
 
 
+// recursive function
+
+unsigned long long factorial(unsigned long long n) {
+    if (n <= 1) return 1;
+    auto next = factorial(n - 1);
+    if (n > std::numeric_limits<unsigned long long>::max() / next)
+        throw overflow_error("عدد خیلی بزرگه!");
+    return n * next;
+}
+
+// slient overflow
+int factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);;
+}
+
+
 class Car {
  int speed;
    public:void setSpeed(int s) {speed = s;}
+
+    public:int number;
 };
 struct Point { int x, y; };
+void signalHandler(int signum) {
+    cout << "❌ خطای سیستم (" << signum << "): دسترسی به حافظه غیرمجاز!\n";
+    exit(signum); // یا هر واکنشی که بخوای
 
+
+
+}
+
+//Type Promotion in overloading
+
+void show(double x) {cout << x << '\n';}
+void show(int x) {cout << x << '\n';}
+
+void showw(int* p)  { cout << "pointer\n"; }
+void showw(int& r)  { cout << "reference\n"; }
+
+
+void test(int& x)       { cout << "by ref\n"; }
+void test(const int& x) { cout << "by const ref\n"; }
+
+
+
+template<typename T> T square2(T x) {return x * x;}
 
 int main() {
+
+   cout << square2(3) << endl;
+
+    int a = 5;
+    test(a);       // non-const ref
+    test(10);      // const ref (چون literal نمی‌تونه به ref معمولی متصل بشه)
+
+    showw(&a);  // pointer version
+    showw(a);   // reference version
+
+show(5);
+    show(10.2);
+    show('a');// type promotion - char to int
+
+
+    signal(SIGSEGV, signalHandler); // هندل کردن Segmentation Fault
+    try {
+   //cout << "factoraial = " << factorial(1200000) << endl;
+
+    } catch (const overflow_error& e) {
+        cout << "overflow error: " << e.what() << endl;
+    }
+    catch (const exception& e) {
+        cout << "exception: " << e.what() << endl;
+    }
+
+// smart pointer
+    auto car = std::make_unique<Car>();
+
+    // unique can not copy only move
+    auto car2 = std::move(car);
+
+    auto orcar = std::make_shared<Point>(1,2);
+
+    // but you can use multi on share
+
+    auto car3 = orcar;
+
   Car c1;            // روی stack
     Car* c2 = new Car; // روی heap
     Point p1;          // روی stack
@@ -60,7 +143,15 @@ cout << Math::add(2,3) << endl;
 App::Student* stdp = &s1;
 
 cout << stdp->name << endl;
+cout << (*stdp).name << endl;
 s1.print();
+
+    // dynamic struct
+    App::Student* mystudent = new App::Student{"mahsa",35,18};
+
+    cout << mystudent->name << endl;
+
+    delete mystudent;
 
 
 App::Student students[3] = {
@@ -76,7 +167,7 @@ for (const auto& s : students) {
 }
 
 cout << bignumber << endl;
-    int a = 10; // clasic method
+    int wwa = 10; // clasic method
     double b = 10;
     char c = 'A';
     long d = 3;
@@ -240,6 +331,36 @@ void print(const string& s){
 }
 
 
+// pass by reff
+void change(int& x) {
+    x = 100;
+}
+// pass by value
+void change(int x) {
+    // dont work
+    x = 100;
+}
+// pass by pointer
+void change(int* x) {
+    *x = 100;
+}
+
+// default paramter
+void hi(const string &name = "hosein") {
+    cout << name << endl;
+}
+
+// function overload
+void hhhh(int n);
+void hhhh(string s);
+
+// inline function
+// be jaye jump be tabe , codesh mostaghiman dar mahal seda zadan jaygozine mishi
+inline int square(int x) {
+    return x * x;
+}
+
+
 
 // shadowing
 //int x = 10;
@@ -252,3 +373,25 @@ void print(const string& s){
 
 // class dufault private
 // struct default pulic
+
+
+
+// 2 type of nested namespace
+
+namespace  A {
+    namespace B {}
+}
+
+namespace C::A{
+}
+
+
+// anonymous namespace
+namespace {
+
+}
+
+
+
+
+

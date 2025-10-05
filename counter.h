@@ -11,10 +11,18 @@
 namespace App {
     extern int counter;
     void increment();
+
+    struct Address {
+        std::string city;
+        std::string street;
+    };
+
    struct Student {
         std::string name;
         int age;
         double grade;
+
+       Address * address;
 
         void print() const {
         std::cout << name << std::endl;
