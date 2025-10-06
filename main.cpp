@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 #include <csignal>
+#include <array>
 #include <limits>
 
 using ll = long long;
@@ -76,6 +77,31 @@ void test(const int& x) { cout << "by const ref\n"; }
 template<typename T> T square2(T x) {return x * x;}
 
 int main() {
+
+    int * nullispointer = nullptr;
+
+    // modern array
+    array<int,5> modernArray = {1,2,3,4,5};
+
+    for (int x : modernArray)
+        cout << x << " ";
+
+    int n;
+    cin >> n;
+    int* arr = new int[n]; // در heap
+
+    delete[] arr;
+
+
+    // undifaind behavior
+    int numbers[5] = {1, 2, 3, 4, 5};
+
+    cout << sizeof(numbers) << '\n';// size araye
+    cout << sizeof(numbers[0]) << '\n'; // size yek ozv
+    cout << sizeof(numbers)/ sizeof(numbers[0]) << '\n'; // tedad araye
+    cout << *(numbers + 2);
+    cout << numbers[0] << '\n';
+    cout << numbers[1000] << '\n';
 
    cout << square2(3) << endl;
 
