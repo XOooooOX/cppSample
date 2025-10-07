@@ -76,7 +76,20 @@ void test(const int& x) { cout << "by const ref\n"; }
 
 template<typename T> T square2(T x) {return x * x;}
 
+int myfuncforpointer(int a, int b ) {return a + b;}
+
+
 int main() {
+
+    // poitner to method
+    int(*mynewfunc)(int,int) =myfuncforpointer;
+    cout << mynewfunc(10,20) << '\n';
+
+    int ariiiir[3] = {10, 20, 30};
+
+    cout << ariiiir;     // آدرس عنصر اول
+    cout << *ariiiir;    // مقدار عنصر اول (10)
+    cout << *(ariiiir+1); // 20
 
     int * nullispointer = nullptr;
 
@@ -418,6 +431,70 @@ namespace {
 }
 
 
+class Base {
+    public:
+    Base() {cout << "base constructor" << endl;}
+    ~Base() {cout << "base destructor" << endl;}
+
+    protected:
+    void protected_function() {}
+    int value = 5;
+
+    private:
+    void private_function(int x) {}
+};
+
+class Derived : public Base {
+    public:
+    Derived() {cout << "derived constructor" << endl;}
+    ~Derived() {cout << "derived destructor" << endl;}
+
+    protected:
+    void protected_function() {cout << value << endl;}
+
+    public:
+    void show(){}
+};
+
+class AA {
+
+};
+
+class BB {
+
+};
+
+class CC:AA,BB {
+
+};
 
 
 
+// agar dar yek class hata yek tabe pure function
+// vojod dashte bashe nemitoni azash nemone besaze
+// chon kol class abstract mishe
+// faghat az ershbari mitone azash besazi
+// sakhtan pointer mojaze
+class Animal {
+    public:
+    virtual void speak() { cout << "speak" << endl;}
+    // pure virtual function like abstract
+    virtual void draw() = 0;
+};
+
+class Dog : public Animal {
+    public:
+    void speak() override { cout << "woof" << endl;}
+    void draw() override { cout << "hello" << endl;}
+};
+
+// agar ba eshare gar az no base be farzand eshare
+// koni , agar destructor class base virtual nabashe
+// monkene faghat paye pak she
+// bedon virtual faghat base nabod mishe va nasht hafeze etefagh mi ofte
+
+// dar posht sahne vaghti class virtual dare
+// compiler yek jadval be name vtable misaze va adress tamam method haye
+// virtual da on negah dashte mishe
+// har  shey ham yek eshare be vtable
+// barname az vtable mifahme bayad kocom ejra she
