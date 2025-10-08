@@ -498,3 +498,14 @@ class Dog : public Animal {
 // virtual da on negah dashte mishe
 // har  shey ham yek eshare be vtable
 // barname az vtable mifahme bayad kocom ejra she
+
+
+// template or generic
+template<typename T> T add(T a,T b) {
+    return a + b;
+}
+
+template<typename T1,typename T2>
+auto multiply(T1 a,T2 b) {
+    return a * b;
+}
