@@ -1,9 +1,14 @@
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <list>
+#include <map>
+#include <set>
 using namespace std;
 #include <csignal>
 #include <array>
+#include <unordered_map>
 #include <limits>
 
 using ll = long long;
@@ -509,3 +514,155 @@ template<typename T1,typename T2>
 auto multiply(T1 a,T2 b) {
     return a * b;
 }
+
+// template for class , like generic cclass
+template<typename T>
+class Box {
+    T value;
+    public:
+    Box(T v): value(v) {}
+    T get() {return value;}
+};
+
+// template fucntion specialization
+// explicit specilization
+template <typename T>
+void print(T val) {
+    cout << "Generic: " << val << endl;
+}
+template<>
+void print<string>(string val) {
+    cout << val << endl;
+}
+
+// stl standard template library and Containers
+// Containers -> vector , list,map, set
+// algorithms -> sort,find,count,for_each
+// iterators -> pol beyn algoritn va container
+
+// squence container
+    /// vector,list, deque, array -> dade ha be tartibe negahdary mishan
+/// associative container
+///     set,map,multieset,multimap dade ha bar asas kelid moratab mishan
+/// unorderd container
+///     unorderd_map,unorder_set mesl map vali bedone tartibe
+///
+///    vecotr like list in c#
+///
+// mesl list khodesh hafeza ro modirayat va bozorg mikone
+void myfunction() {
+    vector<int> v = {1,2,3,4,5};
+    v.push_back(6);
+    v.push_back(7);
+
+    v.pop_back();// hazf akharin onsor
+    v.clear();// pak kardan kol
+
+    for (int x: v) {
+        cout << x << endl;
+    }
+
+    cout << v.size() << endl;
+
+
+    // linked list
+    list<string> l = {"hosein","ali"};
+    l.push_front("hosein");
+    l.push_front("ali");
+    // darj va hazf vasat list sari tare vali dastresi be endis nadari
+
+    //set - majmoe bedon tekrar
+    set<int> s = {3,4,5,6};
+    // hamishe moratab va bedon ozv tekrary hast
+
+    // map shabih dictionary dar c#
+    // bar asas kilid sort mishe
+    map<string,int> maymap ;
+    maymap["hosein"] = 34;
+
+
+    // unorderd map bar paye hash table
+    // tartib moshakashi nadare
+    unordered_map<string,int> mpoint ={
+        {"ali",2}
+    };
+    mpoint["hosein"] = 34;
+
+    // iterators
+    // shabih eshare gar ha vali barye container ha
+    vector<int> vv = {1,2,3,4,5};
+
+    for (auto it = v.begin(); it != v.end(); it++) {
+        cout << *it << endl;
+
+
+    }
+
+    // algoritm
+    sort(v.begin(), v.end());
+    reverse(v.begin(), v.end());
+    auto it = find(v.begin(), v.end(),4);
+
+
+    sort(v.begin(), v.end(),greater<int>());
+
+    // reverse iterator
+    //for (auto it = v.rbegin(); it != v.end(); it++) {}
+
+    auto itr = find(v.begin(), v.end(), 30);
+    if (itr != v.end())
+        cout << "Found: " << *itr;
+
+// one way
+    int c = count(v.begin(), v.end(), 20);
+    // or
+    int cc = count(&v[0], &v[0]+v.size(), 20);
+
+    // lambda
+    auto itsss = find_if(v.begin(), v.end(), [](int n) {
+        return n == 20;
+    });
+
+    for_each(v.begin(), v.end(), [](int n) {
+        cout << n << endl;
+    });
+
+
+    // transform
+    vector<int> squard;
+    transform(v.begin(), v.end(), back_inserter(squard), [](int n) {
+        return n * n;
+    });
+
+    // filter
+    vector<int> evens;
+    copy_if(v.begin(), v.end(), back_inserter(evens), [](int n) {
+        return n % 2 == 0;
+    });
+
+    //remove if
+    v.erase(remove_if(v.begin(), v.end(), [](int n) {
+        return n % 2 == 0;
+    }));
+
+
+    //lambda
+    //[capture] (parameters) -> return type {}
+    // capture motaghyer hayi ke az birom be lambda ghabel dastresi bashe
+    // parameter argoman haye tabe
+
+    auto sum = [](int a,int b) {
+        return a + b;
+    };
+
+    int azbiron = 7;
+    auto sum2 = [azbiron](int a,int b) {
+
+        return a + b + azbiron;
+    };
+
+    cout << [](int a,int b){return a* b;}(5,6) ;
+    }
+
+
+
