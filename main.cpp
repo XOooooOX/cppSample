@@ -1,17 +1,59 @@
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <vector>
 #include <list>
+#include <ranges>
 #include <map>
+#include <fstream>
+#include <concepts>
 #include <set>
 using namespace std;
 #include <csignal>
 #include <array>
 #include <unordered_map>
 #include <limits>
+using namespace std;
 
 using ll = long long;
+// cin vrody dade
+// cout khoroji
+// ofstream zakhire
+
+// ofstream khoroji
+// ifstream vorody
+//fstream vrody va khorojy
+// ios out neveshtan
+// ios in khandan
+// ios app ezafe kardan be enteha
+// iod binary halat binary
+// ios truncate pak kardan mohtavaye ghabli default
+
+int work_with_file() {
+    //ios app baraye inke mohtava pak nashe
+    ofstream file("data.txt",ios::app);
+
+    if (!file) {
+        cerr << "Can't open file" << endl;
+        return 1;
+    }
+
+    file << "hello" << endl;
+    file << "ali" << endl;
+    file.close();
+
+    // read from file
+    ifstream input("data.txt");
+    string word;
+    // dade ro bar asas new line joda mikone
+    while (input >> word) {
+        cout << word << endl;
+    }
+
+
+}
+
 #include "counter.h"
 
 namespace Math {
@@ -85,7 +127,7 @@ int myfuncforpointer(int a, int b ) {return a + b;}
 
 
 int main() {
-
+    work_with_file();
     // poitner to method
     int(*mynewfunc)(int,int) =myfuncforpointer;
     cout << mynewfunc(10,20) << '\n';
@@ -662,7 +704,132 @@ void myfunction() {
     };
 
     cout << [](int a,int b){return a* b;}(5,6) ;
+
+
+    // capture by refrence
+    int limit =10;
+    auto check =[&limit](int a) {
+        return a > limit;
+    };
+
+    // capter all by value and refrcne
+    auto f1 = [=](int a) {};
+    auto f2 = [&](int a) {};
+
+    // lambda with retrun vlue
+    auto divide = [] (int a, int b )-> double {
+        return (double)a / b;
+    };
+
+    int x = 5, y = 10;
+
+    auto sum22 = [=, &y](int z) {
+        y += z;
+        return x + y;
+    };
+
+    // mutable lambda
+    // ba [=] be sorat pish farz read only gast
+    int counter =0;
+    auto fff = [counter]() mutable {
+        counter++;
+        cout << counter << endl;
+    };
     }
 
 
+void process(int n, const function<void(int)>& func) {
+    func(n);
+}
 
+void all_type_smart_pointer() {
+    // unique ptr -> malekitat enhesay shabih refrence local c#
+    // shared pth -> malekiter eshteraki shabih gc managed object dar c#
+    // weak ptr -> eshare gar zaef baraye jelogiry az loop mesl weak refrnce
+    unique_ptr<int> p = make_unique<int>(5);
+    // ghabel copy nist
+    // vali mishe malekiat ro montaghel kard
+
+
+    shared_ptr<int> sp = make_shared<int>(5);
+    // mishe copy kard
+    // vaghti akharin shey pak beshe khodesh pak mishe
+
+
+    weak_ptr<int> wee = weak_ptr<int>(sp);
+    // malekiaty ijad nemikone
+    // mesal
+
+    struct Node {
+        shared_ptr<Node> next;
+        weak_ptr<Node> prev;
+    };
+
+    auto n1 = make_shared<Node>();
+    auto n2 = make_shared<Node>();
+
+    n1->next = n2;
+    n2->prev = n1; // weak_ptr، پس loop مالکیتی ایجاد نمی‌کنه
+
+    // agar inja az share ptr estefade mikardi hich vaght hafeze azad nemishe
+
+
+
+    unique_ptr<int[]> arr = make_unique<int[]>(5);
+}
+
+
+// eceptions
+ void myexcetion () {
+    // basic gurantee - hich manbae leak nemishe
+    // strong gruantee - ya amaliat kamel anjam mishe ya roolback mishe
+    // no-throw gurantee - hich estesnaye partab nemishe
+
+}
+
+class Buffer {
+    unique_ptr<char[]> data;
+    size_t size;
+public:
+    Buffer(size_t s): data(make_unique<char[]>(s)), size(s) {}
+    char* get() { return data.get(); }
+};
+
+// har vaght file az scope kharej beshe on lambda ejra mishe
+
+auto fileCloser = [](FILE* f) {
+    if (f) fclose(f);
+};
+
+unique_ptr<FILE, decltype(fileCloser)> file(fopen("log.txt", "w"), fileCloser);
+
+
+template <typename T>
+concept Addable = requires(T a, T b) {
+    a + b;  // باید عملگر + برای نوع T تعریف شده باشه
+};
+
+template <std::integral T>
+T add(T a, T b) {
+    return a + b;
+}
+
+
+void rnages () {
+    // befor
+    vector<int> nums = {1, 2, 3, 4, 5};
+    vector<int> evens;
+
+    copy_if(nums.begin(), nums.end(), back_inserter(evens),
+            [](int n){ return n % 2 == 0; });
+
+    // after c++ 20
+    for (int n : nums | std::views::filter([](int n){ return n % 2 == 0; }))
+        cout << n << " ";
+
+
+    auto result = nums
+    | std::views::filter([](int n){ return n > 2; })
+    | std::views::transform([](int n){ return n*10; });
+
+}
