@@ -13,6 +13,7 @@ using namespace std;
 #include <csignal>
 #include <array>
 #include <unordered_map>
+#include <cassert>
 #include <limits>
 using namespace std;
 
@@ -127,6 +128,7 @@ int myfuncforpointer(int a, int b ) {return a + b;}
 
 
 int main() {
+    assert(true);
     work_with_file();
     // poitner to method
     int(*mynewfunc)(int,int) =myfuncforpointer;
@@ -812,6 +814,10 @@ concept Addable = requires(T a, T b) {
 
 template <std::integral T>
 T add(T a, T b) {
+    int *af = (int*)malloc(sizeof(int) * 10);
+//calloc();
+   // alloca();
+    free(af);
     return a + b;
 }
 
