@@ -8,7 +8,13 @@
 #include <string>
 #include <iostream>
 
+class CIS {
+public:
+    CIS(int a);
+};
+
 namespace App {
+
     extern int counter;
     void increment();
 

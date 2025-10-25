@@ -526,6 +526,7 @@ class Animal {
     public:
     virtual void speak() { cout << "speak" << endl;}
     // pure virtual function like abstract
+    // inja adad 0 yani in tabe hatman bayad dar kelass haye farzand piade sazi she
     virtual void draw() = 0;
 };
 
@@ -833,3 +834,13 @@ void rnages () {
     | std::views::transform([](int n){ return n*10; });
 
 }
+
+
+int sum(int n) {
+    if (n == 0) return 0;
+
+    return n + sum(n - 1);
+}
+
+//template <typename T> like template<class T>
+
